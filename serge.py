@@ -19,8 +19,12 @@ def answer(message, ws):
         if '/CallThibs' in message['text']:
             ws.send(new_message("@Thibs: Suce des bites", message['channel']))
 
+        # Add a citation
+        elif 'add_citation' in message['text']:
+            add_citation(ws, message)
+
         # Tell a Citation
-        if 'citation' in message['text']:
+        elif 'citation' in message['text']:
             tell_citation(ws, message['channel'])
     # if message['user'] == u'U02LNH2RW':
     #     ws.send(new_message("Ferme ta gueule Greg", message['channel']))
@@ -42,4 +46,13 @@ def tell_citation(ws, chan):
         citations.append(row)
     citation = citations[randint(1, len(citations) - 1)]
     ws.send(new_message(citation['Citation'] + ' - ' + citation['Author'], chan))
+    database_connector.close_connection(cursor, cnx)
+
+
+def add_citation(ws, message):
+    command, citation, author = message['text'].split(",")
+    print "command: {}, citation: {}, author: {}".format(command, citation, author)
+    cursor, cnx = database_connector.open_connection('root', '', '127.0.0.1', 'Serge')
+    database_connector.insert_citation(cursor, citation, author)
+    ws.send(new_message("Nouvelle Citation Insérée! (CMB)", message['channel']))
     database_connector.close_connection(cursor, cnx)

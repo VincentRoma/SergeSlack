@@ -24,7 +24,17 @@ def select_all_citation(cursor):
     return cursor
 
 
+def insert_citation(cursor, citation, author):
+
+    query = ("INSERT INTO Citation (Citation, Author) VALUES ('{}', '{}')".format(citation, author))
+    print "Query: {}".format(query)
+    cursor.execute(query)
+
+    return cursor
+
+
 def close_connection(cursor, cnx):
 
+    cnx.commit()
     cursor.close()
     cnx.close()
