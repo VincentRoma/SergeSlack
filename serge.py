@@ -26,16 +26,31 @@ def answer(message, ws):
         # Tell a Citation
         elif 'citation' in message['text']:
             tell_citation(ws, message['channel'])
-    # if message['user'] == u'U02LNH2RW':
-    #     ws.send(new_message("Ferme ta gueule Greg", message['channel']))
+
+        elif 'casse toi' in message['text']:
+            kthxby(message, ws)
+
+    if ('salut' in message['text']
+    or 'hello' in message['text']
+    or 'yo' in message['text']
+    or 'Salut' in message['text']
+    or 'Hello' in message['text']
+    or 'Bonjour' in message['text']
+    or 'bonjour' in message['text']):
+        respond_hello(message, ws)
 
 
 def say_hello(ws):
-    ws.send(new_message("Serge is there BITCHES", "C04JVPWBP"))
+    ws.send(new_message("Serge is there BITCHES", "C02LLV4HS"))
 
 
-def send_anwser(ws):
-    pass
+def respond_hello(message, ws):
+    ws.send(new_message("Salut " + message['user'] + ' !', message['channel']))
+
+
+def kthxby(message, ws):
+    ws.send(new_message("Kthxby Enculé", message['channel']))
+    ws.close
 
 
 def tell_citation(ws, chan):
@@ -50,9 +65,22 @@ def tell_citation(ws, chan):
 
 
 def add_citation(ws, message):
-    command, citation, author = message['text'].split(",")
-    print "command: {}, citation: {}, author: {}".format(command, citation, author)
-    cursor, cnx = database_connector.open_connection('root', '', '127.0.0.1', 'Serge')
-    database_connector.insert_citation(cursor, citation, author)
-    ws.send(new_message("Nouvelle Citation Insérée! (CMB)", message['channel']))
-    database_connector.close_connection(cursor, cnx)
+    if secure_insert(message):
+        command, citation, author = message['text'].split(",")
+        print "command: {}, citation: {}, author: {}".format(command, citation, author)
+        cursor, cnx = database_connector.open_connection('root', '', '127.0.0.1', 'Serge')
+        database_connector.insert_citation(cursor, citation, author)
+        ws.send(new_message("Nouvelle Citation Insérée! (CMB)", message['channel']))
+        database_connector.close_connection(cursor, cnx)
+    else:
+        ws.send(new_message("Bien essayé !", message['channel']))
+
+
+def secure_insert(message):
+    if ('Marseille' not in message['text']
+    or 'marseille' not in message['text']
+    or 'OM' not in message['text']
+    or 'sardine' not in message['text']):
+        return True
+
+    return False

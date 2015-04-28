@@ -26,7 +26,7 @@ def select_all_citation(cursor):
 
 def insert_citation(cursor, citation, author):
 
-    query = ("INSERT INTO Citation (Citation, Author) VALUES ('{}', '{}')".format(citation, author))
+    query = (u'INSERT INTO Citation (Citation, Author) VALUES ("{}", "{}")'.format(citation, author))
     print "Query: {}".format(query)
     cursor.execute(query)
 
