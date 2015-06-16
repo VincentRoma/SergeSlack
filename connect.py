@@ -24,7 +24,7 @@ class bcolors:
 
 
 print bcolors.OKBLUE + 'Asking for WebSocket URL...' + bcolors.ENDC
-session = requests.get("https://slack.com/api/rtm.start?token=xoxb-4623992909-dSWLyy3iRc1OSO0j8d5KeLfh")
+session = requests.get("https://slack.com/api/rtm.start?token=xoxb-4623992909-dCW8OfDNgIEUgV34SjsUlJCj")
 response = json.loads(session.text)
 
 if response['ok']:
