@@ -5,7 +5,7 @@ import requests
 import websocket
 import json
 import serge
-
+from params import params
 
 class bcolors:
     HEADER = '\033[95m'
@@ -24,7 +24,7 @@ class bcolors:
 
 
 print bcolors.OKBLUE + 'Asking for WebSocket URL...' + bcolors.ENDC
-session = requests.get("https://slack.com/api/rtm.start?token=xoxb-4623992909-dCW8OfDNgIEUgV34SjsUlJCj")
+session = requests.get("https://slack.com/api/rtm.start?token={}".format(params.TOKEN))
 response = json.loads(session.text)
 
 if response['ok']:
