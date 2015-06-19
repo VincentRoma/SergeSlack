@@ -32,6 +32,9 @@ def answer(message, ws):
 
         elif 'casse toi' in message['text']:
             kthxby(message, ws)
+            
+        elif 'start_quizz' in message['text']:
+            start_quizz(ws)
 
     if ('salut' in message['text']
     or 'hello' in message['text']
@@ -45,7 +48,6 @@ def answer(message, ws):
 
 def say_hello(ws):
     ws.send(new_message("Serge is there BITCHES", "C02LLV4HS"))
-    ask_question(ws)
 
 def respond_hello(message, ws):
     user = get_user_info(message['user'])
@@ -95,6 +97,31 @@ def get_user_info(user):
     response = json.loads(r.text)
     return response
     
-def ask_question(ws):
+def ask_question(ws, question):
+    index = 1
     questions = Quizz.all_question()
-    ws.send(new_message(questions[0]['q_text'], "C02LLV4HS"))
+    ws.send(new_message(questions[question]['q_text'], "C02LLV4HS"))
+    while index < 5:
+        ws.send(new_message('{}'.format(questions[0]['q_options_{}'.format(index)]), "C02LLV4HS"))
+        index = index + 1
+    return questions[question]['q_correct_option']
+        
+def start_quizz(ws):
+    ws.send(new_message('Attention ! Le Quizz va démarrer !', "C02LLV4HS"))
+    question = 0
+    while question < 4:
+        ws.send(new_message('Question {}: '.format(question+1), "C02LLV4HS"))
+        answer = ask_question(ws, question)
+        wait_verify(ws, answer)
+        question = question + 1
+
+def wait_verify(ws, answer):
+    condition = True
+    while condition:
+        result = ws.recv()
+        message = json.loads(result)
+        if message and '{}'.format(answer) in message['text']:
+            condition = False
+    ws.send(new_message('GG!, Next', "C02LLV4HS"))
+    return True
+    
