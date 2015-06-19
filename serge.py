@@ -100,11 +100,11 @@ def get_user_info(user):
 def ask_question(ws, question):
     index = 1
     questions = Quizz.all_question()
-    ws.send(new_message(questions[question]['q_text'], "C02LLV4HS"))
+    ws.send(new_message(questions['q_text'], "C02LLV4HS"))
     while index < 5:
-        ws.send(new_message('{}'.format(questions[0]['q_options_{}'.format(index)]), "C02LLV4HS"))
+        ws.send(new_message('{} - {}'.format(index, questions['q_options_{}'.format(index)]), "C02LLV4HS"))
         index = index + 1
-    return questions[question]['q_correct_option']
+    return questions['q_correct_option']
         
 def start_quizz(ws):
     ws.send(new_message('Attention ! Le Quizz va démarrer !', "C02LLV4HS"))
@@ -120,8 +120,9 @@ def wait_verify(ws, answer):
     while condition:
         result = ws.recv()
         message = json.loads(result)
-        if message and '{}'.format(answer) in message['text']:
-            condition = False
+        if 'type' in message:
+            if message['type'] == 'message' and '{}'.format(answer) in message['text']:
+                condition = False
     ws.send(new_message('GG!, Next', "C02LLV4HS"))
     return True
     

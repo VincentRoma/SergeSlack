@@ -9,7 +9,7 @@ class Quizz:
     
     @staticmethod
     def all_question():
-        r = requests.get("https://pareshchouhan-trivia-v1.p.mashape.com/v1/getAllQuizQuestions?limit=10&page=1",
+        r = requests.get("https://pareshchouhan-trivia-v1.p.mashape.com/v1/getRandomQuestion",
           headers={
             "X-Mashape-Key": "SeDWu0VRo1mshhv2V2VoFTPfQ1dGp1tk1Lyjsn5O6bvsurWBly",
             "Accept": "application/json"
