@@ -15,24 +15,6 @@ def open_connection(user, password, host, database):
 
     return cursor, cnx
 
-
-def select_all_citation(cursor):
-
-    query = ("SELECT * FROM Citation;")
-    cursor.execute(query)
-
-    return cursor
-
-
-def insert_citation(cursor, citation, author):
-
-    query = (u'INSERT INTO Citation (Citation, Author) VALUES ("{}", "{}")'.format(citation, author))
-    print "Query: {}".format(query)
-    cursor.execute(query)
-
-    return cursor
-
-
 def close_connection(cursor, cnx):
 
     cnx.commit()
