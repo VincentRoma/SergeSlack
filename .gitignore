@@ -58,3 +58,6 @@ target/
 
 #PARAMS
 params.py
+
+#VIRTUALENV
+serge/
