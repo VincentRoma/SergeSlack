@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-class params:
-    TOKEN = 'YOUR-SLACK-TOKEN'
+TOKEN = 'YOUR-SLACK-TOKEN'
+DATABASE_NAME = ''
+DATABASE_USER = ''
+DATABASE_PASSWORD = ''

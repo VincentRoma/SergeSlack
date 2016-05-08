@@ -5,7 +5,7 @@ from messaging import new_message
 import database_connector
 from random import randint
 import requests
-from params import params
+import params
 import json
 
 def treat_message(message, ws):
@@ -25,7 +25,7 @@ def kthxby(message, ws):
     ws.close
 
 def get_user_info(user):
-    payload = {'token': params.TOKEN, 'user': user }
+    payload = {'token': TOKEN, 'user': user }
     r = requests.post('https://slack.com/api/users.info', data=payload)
     response = json.loads(r.text)
     return response

@@ -5,7 +5,7 @@ import requests
 import websocket
 import json
 import serge
-from params import params
+import params
 
 class bcolors:
     HEADER = '\033[95m'
