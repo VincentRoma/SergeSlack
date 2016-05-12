@@ -10,9 +10,7 @@ def open_connection(user=None, password=None, host=None, database=None):
     cnx = mysql.connector.connect(user='root', password='',
                                   host='127.0.0.1',
                                   database='Serge')
-
     cursor = cnx.cursor()
-
     return cursor, cnx
 
 
