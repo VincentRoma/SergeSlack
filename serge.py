@@ -8,10 +8,13 @@ import requests
 import params
 import json
 
+USERS = []
+
 def treat_message(message, ws):
     if 'type' in message:
         if message['type'] == 'message':
-            answer(message, ws)
+            if 'serge' in message['text'] or 'Serge' in message['text']:
+                respond_hello(message, ws)
 
 def say_hello(ws):
     load_users()
@@ -38,9 +41,6 @@ def get_all_user_info():
     return response
 
 def load_users():
-    users = get_all_user_info()
     cursor, cnx = DB.open_connection()
-    for user in users['members']:
-        if not DB.user_already_exits(cursor, user):
-            DB.insert_user(cursor, user)
+    USERS = DB.get_all_users(cursor)
     DB.close_connection(cursor, cnx)

@@ -11,7 +11,7 @@ def open_connection(user=None, password=None, host=None, database=None):
                                   host='127.0.0.1',
                                   database='Serge')
 
-    cursor = cnx.cursor(dictionary=True)
+    cursor = cnx.cursor()
 
     return cursor, cnx
 
@@ -33,3 +33,10 @@ def user_already_exits(cursor, user):
     cursor.execute(query)
     res = cursor.fetchall()
     return len(res)
+
+
+def get_all_users(cursor):
+    query = (u'SELECT * FROM User')
+    cursor.execute(query)
+    res = cursor.fetchall()
+    return res
