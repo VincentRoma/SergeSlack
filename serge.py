@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from messaging import new_message
-import database_connector
+import database_connector as DB
 from random import randint
 import requests
 import params
@@ -14,7 +14,8 @@ def treat_message(message, ws):
             answer(message, ws)
 
 def say_hello(ws):
-    ws.send(new_message("Serge is there BITCHES", "C0GM3G459P"))
+    load_users()
+    ws.send(new_message("Serge is there BITCHES", "C0GM3G459"))
 
 def respond_hello(message, ws):
     user = get_user_info(message['user'])
@@ -25,7 +26,21 @@ def kthxby(message, ws):
     ws.close
 
 def get_user_info(user):
-    payload = {'token': TOKEN, 'user': user }
+    payload = {'token': params.TOKEN, 'user': user }
     r = requests.post('https://slack.com/api/users.info', data=payload)
     response = json.loads(r.text)
     return response
+
+def get_all_user_info():
+    payload = {'token': params.TOKEN}
+    r = requests.post('https://slack.com/api/users.list', data=payload)
+    response = json.loads(r.text)
+    return response
+
+def load_users():
+    users = get_all_user_info()
+    cursor, cnx = DB.open_connection()
+    for user in users['members']:
+        if not DB.user_already_exits(cursor, user):
+            DB.insert_user(cursor, user)
+    DB.close_connection(cursor, cnx)
