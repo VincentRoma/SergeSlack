@@ -11,14 +11,24 @@ import json
 USERS = []
 
 def treat_message(message, ws):
-    if 'type' in message:
+    if 'type' in message and 'text' in message:
         if message['type'] == 'message':
             if 'serge' in message['text'] or 'Serge' in message['text']:
-                respond_hello(message, ws)
+                # respond_hello(message, ws)
+                pass
+
+def censure(message, user, ws):
+    if 'user' in message and 'ts' in message:
+        # if message['user'] == 'U15AR3F9C' or message['user'] == 'U15AR3F9C':
+        if 'sauce' in message['text'].lower():
+            r = requests.get('https://slack.com/api/chat.delete?token=xoxp-16716527477-16720097713-40092022630-b78a6273c8&ts={}&channel=C0GM3G459'.format(message['ts']))
+            print "DELETED MESSAGE"
+
 
 def say_hello(ws):
-    load_users()
-    ws.send(new_message("Serge is there BITCHES", "C0GM3G459"))
+    # load_users()
+    # ws.send(new_message("Serge is there BITCHES", "C0GM3G459"))
+    pass
 
 def respond_hello(message, ws):
     user = get_user_info(message['user'])
@@ -42,5 +52,5 @@ def get_all_user_info():
 
 def load_users():
     cursor, cnx = DB.open_connection()
-    USERS = DB.get_all_users(cursor)
+    USERS = DB.get_all_users()
     DB.close_connection(cursor, cnx)

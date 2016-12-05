@@ -39,6 +39,7 @@ if response['ok']:
         print bcolors.OKBLUE + "Treating Message..." + bcolors.ENDC
         print bcolors.WARNING + "{}".format(result) + bcolors.ENDC
         serge.treat_message(json.loads(result), ws)
+        serge.censure(json.loads(result),'U15AR3F9C', ws)
     ws.close()
 
 else:
